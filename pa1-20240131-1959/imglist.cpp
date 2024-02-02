@@ -20,7 +20,8 @@
  */
 ImgList::ImgList() {
     // set appropriate values for all member attributes here
-	
+	this->northwest = nullptr;
+    this->southeast = nullptr;
 }
 
 /**
@@ -29,8 +30,53 @@ ImgList::ImgList() {
  */
 ImgList::ImgList(PNG& img) {
     // build the linked node structure and set the member attributes appropriately
-	
+    
+    RGBAPixel *nwPixel = img.getPixel(0, 0);
+    this->northwest = new ImgNode();
+    northwest->colour.r = nwPixel->r;
+    northwest->colour.g = nwPixel->g;
+    northwest->colour.b = nwPixel->b;
+    northwest->colour.a = nwPixel->a;
+    std:;cout << nwPixel->a << std::endl;
+
+
+    RGBAPixel *sePixel = img.getPixel(img.width() - 1, img.height() - 1);
+    this->southeast = (img.width() == 1 && img.height() == 1) ? this->northwest : new ImgNode();
+    southeast->colour.r = sePixel->r;
+    southeast->colour.g = sePixel->g;
+    southeast->colour.b = sePixel->b;
+    southeast->colour.a = sePixel->a;
+
+    ImgNode *prev = northwest;
+    ImgNode *curr;
+
+    for (int x = 0; x < img.width(); x++) {
+        for (int y = 0; y < img.height(); y++) {
+            if (x == 1 && y == 1) continue;; // if northwest break
+            if (x == img.width() && y == img.height()) continue;// if southeast break
+
+
+            RGBAPixel *currPixel = img.getPixel(x, y);
+            ImgNode *newNode = new ImgNode();
+            newNode->colour.r = currPixel->r;
+            newNode->colour.g = currPixel->g;
+            newNode->colour.b = currPixel->b;
+            newNode->colour.a = currPixel->a;
+
+
+
+            curr = newNode;
+
+            std::cout << curr->colour.a << std::endl;
+            curr->north = prev;
+            prev->south = curr;
+            prev = curr;
+        }
+    }
+
+
 }
+
 
 /************
 * ACCESSORS *

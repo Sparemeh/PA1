@@ -22,9 +22,13 @@ int main(void) {
 
     // call the various test functions
     // you may comment and uncomment these as needed
-    TestConstructorRender();
-    TestCarveMode0();
-    TestRenderMode2();
+
+    PNG *png = new PNG();
+    png->readFromFile("input-images/3x4.png");
+    ImgList *image = new ImgList(*png);
+    // TestConstructorRender();
+    // TestCarveMode0();
+    // TestRenderMode2();
 
     return 0;
 }
