@@ -63,14 +63,33 @@ ImgList::ImgList(PNG& img) {
             newNode->colour.b = currPixel->b;
             newNode->colour.a = currPixel->a;
 
-
-
             curr = newNode;
 
             std::cout << curr->colour.a << std::endl;
             curr->north = prev;
             prev->south = curr;
             prev = curr;
+        }
+    }
+
+    prev = northwest;
+    ImgNode *temp;
+    for (int y = 0; y < img.height(); y++) {
+        for (int x = 0; x < img.width(); x++) {
+            if (x == 1 && y == 1) continue;; // if northwest break
+            if (x == img.width() && y == img.height()) continue;// if southeast break
+
+            int count = 0;
+            temp = prev;
+            while(count < img.height()) {
+                temp = temp -> south;
+            }
+            curr = temp;
+            prev -> east = curr;
+            curr -> west = prev;
+            std::cout << curr->colour.a << std::endl;
+            prev = curr;
+            
         }
     }
 
